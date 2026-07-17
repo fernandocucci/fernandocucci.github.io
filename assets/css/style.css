@@ -118,16 +118,23 @@ main,
 
 /* ----------------------------------------------------------------- intro */
 
+/* Sans, not serif: the serif is for reading, so anything set in it reads as
+   an article. This is identity, so it gets a different voice — and it sits
+   close to the name and far from the archive, to belong to the header. */
+
 .intro {
-  padding-block: 3.5rem 3rem;
+  max-width: 30rem;
+  padding-block: 1.25rem 4.5rem;
 }
 
 .intro__lede {
   margin: 0;
-  font-size: 1.375rem;
-  line-height: 1.45;
-  letter-spacing: -0.011em;
-  text-wrap: balance;
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--muted);
+  text-wrap: pretty;
 }
 
 /* ------------------------------------------------------------ provenance */
@@ -155,7 +162,7 @@ main,
 
 .provenance__sep {
   margin-inline: 0.4em;
-  color: var(--rule);
+  color: color-mix(in srgb, var(--muted) 55%, transparent);
 }
 
 /* --------------------------------------------------------------- archive */
@@ -170,6 +177,11 @@ main,
 .entry {
   padding-block: 2.25rem;
   border-bottom: 1px solid var(--rule);
+}
+
+/* The colophon's rule closes the list; a second one here would be redundant. */
+.entry:last-child {
+  border-bottom: 0;
 }
 
 .entry__title {
@@ -373,9 +385,17 @@ main,
 
 /* -------------------------------------------------------------- colophon */
 
+/* The rule lives on the inner element so it lines up with the archive's
+   rules, which sit inside main's gutter. On .colophon itself it would run
+   the full width including the padding, and read as a measuring error. */
+
 .colophon {
-  margin-top: 4rem;
-  padding-block: 2rem 3.5rem;
+  margin-top: 3rem;
+  padding-block: 0 3.5rem;
+}
+
+.colophon__inner {
+  padding-top: 2rem;
   border-top: 1px solid var(--rule);
 }
 

@@ -7,7 +7,7 @@
   {%- feed_meta -%}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
@@ -31,8 +31,10 @@
   </main>
 
   <footer class="colophon">
-    <p>Articles here first appeared elsewhere. Each one links to its original.</p>
-    <p class="colophon__meta">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>
+    <div class="colophon__inner">
+      <p>Articles here first appeared elsewhere. Each one links to its original.</p>
+      <p class="colophon__meta">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>
+    </div>
   </footer>
 
 </body>
