@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<section class="intro">
+  <p class="intro__lede">{{ site.description }}</p>
+</section>
+
+<ol class="archive" reversed>
+  {%- for post in site.posts -%}
+  <li class="entry">
+    <p class="provenance">
+      {%- if post.original_url -%}
+        <a class="provenance__source" href="{{ post.original_url }}">{{ post.original_publication | default: "Elsewhere" }}</a>
+        <span class="provenance__sep" aria-hidden="true">·</span>
+        <time datetime="{{ post.original_date | default: post.date | date_to_xmlschema }}">{{ post.original_date | default: post.date | date: "%-d %b %Y" }}</time>
+      {%- else -%}
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%-d %b %Y" }}</time>
+      {%- endif -%}
+    </p>
+    <h2 class="entry__title">
+      <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+    </h2>
+    <p class="entry__excerpt">{{ post.excerpt | strip_html | truncate: 220 }}</p>
+  </li>
+  {%- endfor -%}
+</ol>

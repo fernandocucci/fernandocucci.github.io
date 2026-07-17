@@ -1,23 +1,19 @@
 title: Fernando Cucci
+tagline: SAP and AI in enterprise systems
 description: >-
-  Enterprise Solutions Architect. 15+ years in SAP, now working where SAP
-  meets AI. Notes on what actually holds up in enterprise systems.
+  Enterprise Solutions Architect. 15 years in SAP, now working where SAP
+  meets AI. Notes on what holds up in enterprise systems, and what doesn't.
 author: Fernando Cucci
 
 url: "https://fernandocucci.github.io"
 baseurl: ""
 
-theme: minima
+linkedin_url: https://www.linkedin.com/in/fernandocucci/
+github_url: https://github.com/fernandocucci
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-
-minima:
-  date_format: "%b %-d, %Y"
-  social_links:
-    github: fernandocucci
-    # linkedin: <tu-handle-de-linkedin>
 
 exclude:
   - README.md

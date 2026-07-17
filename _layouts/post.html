@@ -1,27 +1,37 @@
 ---
 layout: default
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {{ page.date | date: site.minima.date_format }}
-      </time>
+<article class="post">
+
+  <header class="post__header">
+    <p class="provenance">
+      {%- if page.original_url -%}
+        <a class="provenance__source" href="{{ page.original_url }}">{{ page.original_publication | default: "Elsewhere" }}</a>
+        <span class="provenance__sep" aria-hidden="true">·</span>
+        <time datetime="{{ page.original_date | default: page.date | date_to_xmlschema }}">{{ page.original_date | default: page.date | date: "%-d %b %Y" }}</time>
+      {%- else -%}
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %b %Y" }}</time>
+      {%- endif -%}
     </p>
-    {%- if page.original_url -%}
-    <p class="post-meta">
-      Originally published on the
-      <a href="{{ page.original_url }}">{{ page.original_publication | default: "Code10 blog" }}</a>
-      {%- if page.original_date %} on {{ page.original_date | date: site.minima.date_format }}{%- endif -%}.
-    </p>
-    {%- endif -%}
+    <h1 class="post__title">{{ page.title | escape }}</h1>
   </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
+  <div class="prose">
     {{ content }}
   </div>
 
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  {%- if page.original_url -%}
+  <aside class="post__origin">
+    <p>
+      First published on the
+      <a href="{{ page.original_url }}">{{ page.original_publication | default: "original site" }}</a>{% if page.original_date %}, {{ page.original_date | date: "%-d %B %Y" }}{% endif %}.
+    </p>
+  </aside>
+  {%- endif -%}
+
 </article>
+
+<nav class="post__nav" aria-label="More articles">
+  <a href="{{ '/' | relative_url }}">All articles</a>
+</nav>
