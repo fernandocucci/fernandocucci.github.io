@@ -2,6 +2,7 @@
 layout: post
 title: "Humans vs. SAP-RPT-1: how we built a live prediction challenge for AUSAPE"
 date: 2026-06-10
+image: /assets/og/humans-vs-sap-rpt-1.png
 original_publication: Code10 blog
 original_date: 2026-06-10
 original_url: https://code10it.com/humans-vs-sap-rpt-1-how-we-built-a-live-prediction-challenge-for-ausape/
