@@ -2,6 +2,7 @@
 layout: post
 title: "Local AI vs. AI on Bedrock: a real test"
 date: 2026-07-09
+image: /assets/og/local-ai-vs-ai-on-bedrock.png
 original_publication: Code10 blog
 original_date: 2026-07-09
 original_url: https://code10it.com/local-ai-vs-amazon-bedrock-cost-privacy-test/

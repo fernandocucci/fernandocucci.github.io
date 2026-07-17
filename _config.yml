@@ -11,10 +11,8 @@ baseurl: ""
 linkedin_url: https://www.linkedin.com/in/fernandocucci/
 github_url: https://github.com/fernandocucci
 
-twitter:
-  card: summary_large_image
-
 # Default social card; posts override with their own `image:`
+# (jekyll-seo-tag reads page-level `image` only — a site-level key is ignored)
 defaults:
   - scope:
       path: ""
