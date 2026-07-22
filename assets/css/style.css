@@ -289,22 +289,30 @@ main,
 .prose > * { margin-block: 0 1.4em; }
 .prose > *:last-child { margin-bottom: 0; }
 
+/* Section headings share the post title's voice, one step down each time:
+   2.375rem for the title, 1.5rem here, 1.1875rem for h3 and the body. A
+   heading set smaller than the text it introduces reads as a bold sentence,
+   not as a heading, which is what these were doing in sans at 1.0625rem.
+   The em margins scale with the heading, so the space above a section is
+   always larger than the space below it and the title binds downward. */
+
 .prose h2 {
-  margin-block: 2.75em 0.7em;
-  font-family: var(--sans);
-  font-size: 1.0625rem;
+  margin-block: 2.5em 0.6em;
+  font-family: var(--serif);
+  font-size: 1.5rem;
   font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: 0.005em;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
   text-wrap: balance;
 }
 
 .prose h3 {
-  margin-block: 2em 0.6em;
-  font-family: var(--sans);
-  font-size: 0.9375rem;
+  margin-block: 2em 0.5em;
+  font-family: var(--serif);
+  font-size: 1.1875rem;
   font-weight: 600;
-  color: var(--muted);
+  line-height: 1.3;
+  letter-spacing: -0.006em;
   text-wrap: balance;
 }
 
