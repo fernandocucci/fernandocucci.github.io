@@ -11,9 +11,11 @@
   --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* ~67 characters per line at the body's upper size. Below 60 the eye
-     jumps lines too often; above 75 it loses the return. */
-  --measure: 40rem;
+  /* One column for everything: prose, code panels, rules. Wide enough that
+     96-column code fits inside the panel's padding without wrapping, which
+     is what sets the number. Longer lines than the typographic ideal, so
+     the body leading below is opened up to compensate. */
+  --measure: 50rem;
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
 
   /* Syntax. Hues are pulled toward the accent so the code panel reads as
@@ -59,7 +61,7 @@ body {
   color: var(--ink);
   font-family: var(--serif);
   font-size: clamp(1.0625rem, 0.4vw + 1rem, 1.1875rem);
-  line-height: 1.65;
+  line-height: 1.72;
   font-feature-settings: "kern", "liga";
   -webkit-font-smoothing: antialiased;
 }
@@ -143,7 +145,7 @@ main,
    close to the name and far from the archive, to belong to the header. */
 
 .intro {
-  max-width: 35rem;
+  max-width: 40rem;
   padding-block: 1.25rem 4.5rem;
 }
 
@@ -364,21 +366,13 @@ main,
 }
 
 /* ------------------------------------------------------------------ code */
-/* Prose is set to 40rem; these posts write 90-odd column Python and SQL. So
-   the code panel bleeds past the measure on both sides, 5rem each way, which
-   is what those 96 columns need and no more. The bleed collapses to zero on
-   narrow screens. What still doesn't fit wraps rather than scrolls, since a
-   horizontal bar under every snippet is worse than a soft break. Colour,
-   reserved elsewhere for provenance, is admitted here because a token's kind
-   is information the reader is actively looking for.                      */
-
-.prose {
-  --bleed: clamp(
-    0rem,
-    (100vw - var(--measure) - 2 * var(--gutter) - 1.5rem) / 2,
-    5rem
-  );
-}
+/* The panel sits flush in the measure: its edges are the same two vertical
+   lines the prose runs between, so nothing breaks the column. The measure
+   was sized so the 90-odd column Python and SQL in these posts clears the
+   panel's padding. What still doesn't fit wraps rather than scrolls, since
+   a horizontal bar under every snippet is worse than a soft break. Colour,
+   reserved elsewhere for provenance, is admitted here because a token's
+   kind is information the reader is actively looking for.                */
 
 /* ---- inline ---- */
 
@@ -397,8 +391,6 @@ main,
 .prose div[class*="language-"],
 .prose figure.highlight,
 .prose > pre {
-  margin-inline: calc(-1 * var(--bleed));
-  width: calc(100% + 2 * var(--bleed));
   background: var(--code-bg);
   border: 1px solid var(--code-rule);
   border-radius: 6px;
