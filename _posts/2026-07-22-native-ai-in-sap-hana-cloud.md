@@ -2,6 +2,7 @@
 layout: post
 title: "The database did the work: native AI methods in SAP HANA Cloud"
 date: 2026-07-22
+image: /assets/og/native-ai-in-sap-hana-cloud.png
 ---
 
 I went to the HANA CodeJam 2026 expecting a database with AI bolted on the side: embeddings computed somewhere else, vectors pushed into a separate store, a reranker running as its own service, a graph in its own engine. That's the stack I've built before. Instead, the whole day was SQL functions inside SAP HANA Cloud, over tables that never moved. I went back through the labs to understand that properly, not just to have run it.
