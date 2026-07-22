@@ -289,6 +289,10 @@ main,
 .prose > * { margin-block: 0 1.4em; }
 .prose > *:last-child { margin-bottom: 0; }
 
+/* A post that opens on a heading shouldn't inherit its section spacing;
+   the header above it already provides the gap. */
+.prose > *:first-child { margin-top: 0; }
+
 /* Section headings share the post title's voice, one step down each time:
    2.375rem for the title, 1.5rem here, 1.1875rem for h3 and the body. A
    heading set smaller than the text it introduces reads as a bold sentence,
