@@ -2,7 +2,6 @@
 
 :root {
   --paper:   #FCFCFD;
-  --surface: #F2F3F7;
   --ink:     #14161A;
   --muted:   #626C7C;
   --rule:    #E2E5EA;
@@ -14,16 +13,35 @@
 
   --measure: 34rem;
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
+
+  /* Syntax. Hues are pulled toward the accent so the code panel reads as
+     part of the page rather than a pasted-in editor theme. */
+  --code-bg:   #F4F5F9;
+  --code-rule: #E2E5EA;
+  --syn-key:   #6B3FBF;
+  --syn-str:   #0F7458;
+  --syn-num:   #9C560A;
+  --syn-fn:    #1F55BE;
+  --syn-type:  #0B6E75;
+  --syn-punct: #5A6273;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --paper:   #0F1115;
-    --surface: #191C23;
     --ink:     #E7E9ED;
     --muted:   #949DAC;
     --rule:    #272B34;
     --accent:  #B3A0F0;
+
+    --code-bg:   #171A21;
+    --code-rule: #262A33;
+    --syn-key:   #B9A5F5;
+    --syn-str:   #7FD3A8;
+    --syn-num:   #E3AC77;
+    --syn-fn:    #82B1F0;
+    --syn-type:  #6FCFCB;
+    --syn-punct: #9AA3B2;
   }
 }
 
@@ -344,43 +362,177 @@ main,
 }
 
 /* ------------------------------------------------------------------ code */
-/* Deliberately unhighlighted: colour is reserved for provenance.          */
+/* Prose wants 34rem; these posts write 90-odd column Python and SQL. So the
+   code panel bleeds past the measure on both sides, up to 7.5rem each way,
+   and the bleed collapses to zero on narrow screens. What still doesn't fit
+   wraps rather than scrolls — a horizontal bar under every snippet is worse
+   than a soft break. Colour, reserved elsewhere for provenance, is admitted
+   here because a token's kind is information the reader is looking for.   */
+
+.prose {
+  --bleed: clamp(
+    0rem,
+    (100vw - var(--measure) - 2 * var(--gutter) - 1.5rem) / 2,
+    7.5rem
+  );
+}
+
+/* ---- inline ---- */
 
 .prose code {
   font-family: var(--mono);
   font-size: 0.8125em;
-  background: var(--surface);
-  padding: 0.15em 0.35em;
-  border-radius: 3px;
+  background: color-mix(in srgb, var(--code-bg) 75%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--code-rule) 75%, transparent);
+  padding: 0.1em 0.34em;
+  border-radius: 4px;
+  overflow-wrap: break-word;
+}
+
+/* ---- block ---- */
+
+.prose div[class*="language-"],
+.prose figure.highlight,
+.prose > pre {
+  margin-inline: calc(-1 * var(--bleed));
+  width: calc(100% + 2 * var(--bleed));
+  background: var(--code-bg);
+  border: 1px solid var(--code-rule);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.prose div[class*="language-"] .highlight,
+.prose figure.highlight pre {
+  margin: 0;
+  background: none;
 }
 
 .prose pre {
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: 4px;
-  padding: 1rem 1.125rem;
-  overflow-x: auto;
+  margin: 0;
+  padding: 0.55rem 1.25rem 1.05rem;
+  background: none;
+  border: 0;
   font-size: 0.8125rem;
-  line-height: 1.6;
+  line-height: 1.65;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--muted) 35%, transparent) transparent;
+}
+
+/* Blocks with no language get no label row, so they keep even padding. */
+.prose div.language-plaintext pre,
+.prose > pre {
+  padding-top: 1.05rem;
 }
 
 .prose pre code {
   background: none;
+  border: 0;
   padding: 0;
   font-size: inherit;
+  white-space: inherit;
 }
 
-.prose .highlight,
-.prose figure.highlight {
-  margin: 0 0 1.4em;
-  background: none;
+.prose pre::-webkit-scrollbar { height: 7px; }
+.prose pre::-webkit-scrollbar-track { background: transparent; }
+.prose pre::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted) 32%, transparent);
+  border-radius: 4px;
 }
 
-.prose pre .c,
-.prose pre .c1,
-.prose pre .cm {
+/* ---- language label ---- */
+/* A block only earns a label if we name the language for it; the rest fall
+   through with no ::before box at all. */
+
+.prose div[class*="language-"]::before {
+  display: block;
+  padding: 0.7rem 1.25rem 0;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 80%, transparent);
+}
+
+.prose div.language-python::before     { content: "python"; }
+.prose div.language-sql::before        { content: "sql"; }
+.prose div.language-json::before       { content: "json"; }
+.prose div.language-yaml::before,
+.prose div.language-yml::before        { content: "yaml"; }
+.prose div.language-bash::before,
+.prose div.language-sh::before,
+.prose div.language-shell::before      { content: "shell"; }
+.prose div.language-javascript::before,
+.prose div.language-js::before         { content: "javascript"; }
+.prose div.language-typescript::before,
+.prose div.language-ts::before         { content: "typescript"; }
+.prose div.language-abap::before       { content: "abap"; }
+.prose div.language-html::before       { content: "html"; }
+.prose div.language-css::before        { content: "css"; }
+.prose div.language-xml::before        { content: "xml"; }
+.prose div.language-diff::before       { content: "diff"; }
+
+/* ---- tokens (rouge) ---- */
+
+.prose .highlight .c,  .prose .highlight .ch, .prose .highlight .cd,
+.prose .highlight .cm, .prose .highlight .c1, .prose .highlight .cs,
+.prose .highlight .cp, .prose .highlight .cpf {
   color: var(--muted);
   font-style: italic;
+}
+
+.prose .highlight .k,  .prose .highlight .kc, .prose .highlight .kd,
+.prose .highlight .kn, .prose .highlight .kp, .prose .highlight .kr,
+.prose .highlight .ow, .prose .highlight .nt {
+  color: var(--syn-key);
+  font-weight: 500;
+}
+
+.prose .highlight .kt, .prose .highlight .nb, .prose .highlight .bp,
+.prose .highlight .nc, .prose .highlight .nn, .prose .highlight .ne {
+  color: var(--syn-type);
+}
+
+.prose .highlight .nf, .prose .highlight .fm, .prose .highlight .nd,
+.prose .highlight .na {
+  color: var(--syn-fn);
+}
+
+.prose .highlight .s,  .prose .highlight .s1, .prose .highlight .s2,
+.prose .highlight .sa, .prose .highlight .sb, .prose .highlight .sc,
+.prose .highlight .sd, .prose .highlight .se, .prose .highlight .sh,
+.prose .highlight .si, .prose .highlight .sr, .prose .highlight .ss,
+.prose .highlight .sx, .prose .highlight .dl {
+  color: var(--syn-str);
+}
+
+.prose .highlight .m,  .prose .highlight .mb, .prose .highlight .mf,
+.prose .highlight .mh, .prose .highlight .mi, .prose .highlight .mo,
+.prose .highlight .il, .prose .highlight .no {
+  color: var(--syn-num);
+}
+
+.prose .highlight .o, .prose .highlight .p, .prose .highlight .pi {
+  color: var(--syn-punct);
+}
+
+.prose .highlight .nv, .prose .highlight .vc, .prose .highlight .vg,
+.prose .highlight .vi, .prose .highlight .py, .prose .highlight .n,
+.prose .highlight .nx, .prose .highlight .nl {
+  color: var(--ink);
+}
+
+.prose .highlight .gd { color: #B3261E; }
+.prose .highlight .gi { color: var(--syn-str); }
+.prose .highlight .err { color: inherit; }
+
+@media (prefers-color-scheme: dark) {
+  .prose .highlight .gd { color: #F2857C; }
 }
 
 /* -------------------------------------------------------------- colophon */
