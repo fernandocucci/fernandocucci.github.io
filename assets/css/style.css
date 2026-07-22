@@ -16,6 +16,11 @@
      is what sets the number. Longer lines than the typographic ideal, so
      the body leading below is opened up to compensate. */
   --measure: 50rem;
+  /* Small type needs a shorter line than the column it sits in: the measure
+     above is set by the code panel, and at 15px it would run past 100
+     characters. Ledes, excerpts and footnotes stop here instead, and the
+     rules keep spanning the full column so the grid still reads. */
+  --measure-aside: 36rem;
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
 
   /* Syntax. Hues are pulled toward the accent so the code panel reads as
@@ -145,7 +150,7 @@ main,
    close to the name and far from the archive, to belong to the header. */
 
 .intro {
-  max-width: 40rem;
+  max-width: var(--measure-aside);
   padding-block: 1.25rem 4.5rem;
 }
 
@@ -230,6 +235,7 @@ main,
 
 .entry__excerpt {
   margin: 0;
+  max-width: var(--measure-aside);
   color: var(--muted);
   font-size: 0.9375rem;
   line-height: 1.6;
@@ -259,6 +265,7 @@ main,
 
 .post__origin p {
   margin: 0;
+  max-width: var(--measure-aside);
   font-size: 0.875rem;
   color: var(--muted);
 }
@@ -560,6 +567,7 @@ main,
 
 .colophon p {
   margin: 0;
+  max-width: var(--measure-aside);
   font-size: 0.8125rem;
   color: var(--muted);
 }

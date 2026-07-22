@@ -11,6 +11,10 @@ baseurl: ""
 linkedin_url: https://www.linkedin.com/in/fernandocucci/
 github_url: https://github.com/fernandocucci
 
+# GoatCounter analytics. Only loads on production builds (GitHub Pages sets
+# JEKYLL_ENV=production); local `jekyll serve` runs never count.
+goatcounter_code: fernandoc
+
 # Default social card; posts override with their own `image:`
 # (jekyll-seo-tag reads page-level `image` only — a site-level key is ignored)
 defaults:

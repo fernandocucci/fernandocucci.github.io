@@ -77,7 +77,8 @@ COSINE_SIMILARITY(VECTOR_EMBEDDING(:prompt, 'QUERY', 'SAP_GXY.20250407'), "VECTO
 
 ```python
 from hana_ml.text.pal_cross_encoder import PALCrossEncoder
-PALCrossEncoder(model_version='SAP_CER.20250701').predict(data=hdf, key='ID', content=['QUERY', 'content'])
+PALCrossEncoder(model_version='SAP_CER.20250701').predict(
+    data=hdf, key='ID', content=['QUERY', 'content'])
 ```
 
 This is the step that turns a demo retrieval into a usable one. Embeddings are computed once, and every later search is arithmetic over numbers that already exist. A cross-encoder can't work that way: its score depends on the pair, this query against this document, and at load time you don't have the query yet. So it runs live, per query, over the shortlist the vector search already narrowed. Vector search scans everything and cuts it down. The cross-encoder only sees the survivors.
