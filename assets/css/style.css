@@ -11,7 +11,9 @@
   --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --measure: 34rem;
+  /* ~67 characters per line at the body's upper size. Below 60 the eye
+     jumps lines too often; above 75 it loses the return. */
+  --measure: 40rem;
   --gutter: clamp(1.25rem, 5vw, 2.5rem);
 
   /* Syntax. Hues are pulled toward the accent so the code panel reads as
@@ -141,7 +143,7 @@ main,
    close to the name and far from the archive, to belong to the header. */
 
 .intro {
-  max-width: 30rem;
+  max-width: 35rem;
   padding-block: 1.25rem 4.5rem;
 }
 
@@ -362,18 +364,19 @@ main,
 }
 
 /* ------------------------------------------------------------------ code */
-/* Prose wants 34rem; these posts write 90-odd column Python and SQL. So the
-   code panel bleeds past the measure on both sides, up to 7.5rem each way,
-   and the bleed collapses to zero on narrow screens. What still doesn't fit
-   wraps rather than scrolls — a horizontal bar under every snippet is worse
-   than a soft break. Colour, reserved elsewhere for provenance, is admitted
-   here because a token's kind is information the reader is looking for.   */
+/* Prose is set to 40rem; these posts write 90-odd column Python and SQL. So
+   the code panel bleeds past the measure on both sides, 5rem each way, which
+   is what those 96 columns need and no more. The bleed collapses to zero on
+   narrow screens. What still doesn't fit wraps rather than scrolls, since a
+   horizontal bar under every snippet is worse than a soft break. Colour,
+   reserved elsewhere for provenance, is admitted here because a token's kind
+   is information the reader is actively looking for.                      */
 
 .prose {
   --bleed: clamp(
     0rem,
     (100vw - var(--measure) - 2 * var(--gutter) - 1.5rem) / 2,
-    7.5rem
+    5rem
   );
 }
 
