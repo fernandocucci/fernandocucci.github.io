@@ -27,7 +27,22 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+# GitHub Pages applies these itself and ignores whatever is set here. They are
+# spelled out so the local Jekyll (see Gemfile) renders markdown the same way
+# instead of falling back to its own defaults.
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Setting `exclude` replaces Jekyll's default list rather than adding to it,
+# so the vendor paths have to be named again or the local bundle gets scanned
+# as site content.
 exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+  - .bundle/
+  - vendor/

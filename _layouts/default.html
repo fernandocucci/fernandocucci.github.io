@@ -18,27 +18,41 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="masthead">
-    <a class="masthead__name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-    <nav class="masthead__nav" aria-label="Elsewhere">
-      {%- if site.linkedin_url -%}
-      <a href="{{ site.linkedin_url }}" rel="me">LinkedIn</a>
-      {%- endif -%}
-      {%- if site.github_url -%}
-      <a href="{{ site.github_url }}" rel="me">GitHub</a>
-      {%- endif -%}
-    </nav>
-  </header>
+  <div class="page">
 
-  <main id="main">
-    {{ content }}
-  </main>
+    {%- comment -%}
+      Identity lives here rather than in home.html so the rail carries name,
+      bio and links on every page, including posts: a reader arriving from a
+      link always sees whose work this is.
+    {%- endcomment -%}
+    <header class="identity">
+      <div class="identity__inner">
+        <a class="identity__name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+        <p class="identity__bio">{{ site.description }}</p>
+        <nav class="identity__nav" aria-label="Elsewhere">
+          {%- if site.linkedin_url -%}
+          <a href="{{ site.linkedin_url }}" rel="me">LinkedIn</a>
+          {%- endif -%}
+          {%- if site.github_url -%}
+          <a href="{{ site.github_url }}" rel="me">GitHub</a>
+          {%- endif -%}
+        </nav>
+      </div>
+    </header>
 
-  <footer class="colophon">
-    <div class="colophon__inner">
-      <p class="colophon__meta">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>
+    <div class="page__body">
+      <main id="main">
+        {{ content }}
+      </main>
+
+      <footer class="colophon">
+        <div class="colophon__inner">
+          <p class="colophon__meta">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>
+        </div>
+      </footer>
     </div>
-  </footer>
+
+  </div>
 
 </body>
 </html>
