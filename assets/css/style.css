@@ -557,6 +557,77 @@ body {
 .prose div.language-xml::before        { content: "xml"; }
 .prose div.language-diff::before       { content: "diff"; }
 
+/* ---- copy button ---- */
+/* The label row is a ::before, so the button cannot share a flex line with
+   it; it is placed instead against the panel's top right, on the same
+   optical line as the label. It borrows the label's type so the row reads
+   as one piece of chrome rather than a widget dropped on top. Hidden until
+   the panel is hovered, since a reader who is not about to copy has no use
+   for it; pointer-less devices get it permanently. */
+
+.prose .code-panel { position: relative; }
+
+.code-copy {
+  position: absolute;
+  top: 0.42rem;
+  right: 0.5rem;
+  padding: 0.28rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--code-bg) 60%, var(--paper));
+  border: 1px solid var(--code-rule);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.code-panel:hover .code-copy,
+.code-copy:focus-visible {
+  opacity: 1;
+}
+
+.code-copy:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+
+.code-copy:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.code-copy[data-state="done"] {
+  color: var(--syn-str);
+  border-color: color-mix(in srgb, var(--syn-str) 40%, transparent);
+  opacity: 1;
+}
+
+.code-copy[data-state="fail"] {
+  color: var(--syn-num);
+  border-color: color-mix(in srgb, var(--syn-num) 40%, transparent);
+  opacity: 1;
+}
+
+/* Nothing hovers on a touch screen, so there the button just stays. */
+@media (hover: none) {
+  .code-copy { opacity: 1; }
+}
+
+/* A panel with no language label has code where the button goes, so it
+   trades the label row's height for padding and keeps the first line clear. */
+/* Qualified by element so it outweighs the plaintext padding rule above,
+   which is otherwise just as specific. */
+.prose div.code-panel--unlabelled pre,
+.prose figure.code-panel--unlabelled pre,
+.prose pre.code-panel--unlabelled {
+  padding-top: 2.1rem;
+}
+
 /* ---- tokens (rouge) ---- */
 
 .prose .highlight .c,  .prose .highlight .ch, .prose .highlight .cd,
