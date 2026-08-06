@@ -439,6 +439,88 @@ body {
   border-radius: 2px;
 }
 
+/* Only images the script has wired up advertise themselves as clickable, so
+   with JS off the cursor never promises something that won't happen. */
+.prose img.is-zoomable { cursor: zoom-in; }
+.prose img.is-zoomable:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------- lightbox */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: clamp(1rem, 4vw, 3rem);
+  /* Near-opaque rather than a light scrim: these are screenshots of a pale UI
+     and they need the page behind them gone, not dimmed. */
+  background: color-mix(in srgb, var(--paper) 92%, #000);
+  /* Every click in here closes, so the whole surface says so, not just the
+     image. The close button opts back out below. */
+  cursor: zoom-out;
+}
+
+.lightbox[hidden] { display: none; }
+
+/* The image keeps its own pixel size and the frame scrolls around it. Flex
+   plus margin:auto centres it when it is smaller than the frame without
+   clipping the far edges when it is larger, which plain centring does. */
+.lightbox__frame {
+  display: flex;
+  width: 100%;
+  height: 85vh;
+  overflow: auto;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
+.lightbox__image {
+  display: block;
+  margin: auto;
+  /* Without this the image is a shrinkable flex item and quietly scales down
+     to fit the frame, which is the one thing this overlay exists to avoid. */
+  flex: none;
+  cursor: zoom-out;
+}
+
+.lightbox__caption {
+  margin: 0;
+  max-width: var(--measure-aside);
+  text-align: center;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.lightbox__caption[hidden] { display: none; }
+
+.lightbox__close {
+  position: absolute;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  padding: 0.35em 0.7em;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  background: var(--paper);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.lightbox__close:hover { color: var(--ink); border-color: var(--muted); }
+
+/* Holds the page still behind the overlay. */
+html.has-lightbox-open { overflow: hidden; }
+
 .prose table {
   width: 100%;
   border-collapse: collapse;
