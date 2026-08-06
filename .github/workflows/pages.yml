@@ -1,0 +1,59 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Lets you redeploy from the Actions tab without pushing a commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time. `cancel-in-progress: false` on purpose: cancelling a
+# run that is already deploying is what left the Pages deployment queue wedged
+# before, so queued runs wait their turn instead of killing each other.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Reads the version out of Gemfile.lock and caches the bundle. Installs
+      # into vendor/bundle, which _config.yml already excludes from the site.
+      - uses: ruby/setup-ruby@v1
+        with:
+          # Matches the Ruby that resolved Gemfile.lock locally (4.0.x, bundler
+          # 4.0.17). Bump both together, or the lockfile stops matching.
+          ruby-version: "4.0"
+          bundler-cache: true
+
+      - uses: actions/configure-pages@v5
+
+      # JEKYLL_ENV has to be set here. The legacy Pages builder set it for you,
+      # and _config.yml gates the GoatCounter snippet on it, so without this the
+      # deployed site would silently stop counting visits.
+      #
+      # No --baseurl override: this is a user site and _config.yml already sets
+      # url and baseurl explicitly.
+      - name: Build with Jekyll
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
