@@ -2,6 +2,7 @@
 layout: post
 title: "SAP Document AI won't subscribe on a BTP trial: error 422, OIDC trust missing"
 date: 2026-08-06
+image: /assets/og/sap-document-ai-btp-trial-oidc-trust.png
 ---
 
 You try to subscribe to SAP Document AI on a BTP trial account, and the subscription fails. The cockpit shows a red badge and a message that sounds like it belongs to a different problem:
