@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SAP Document AI won't subscribe on a BTP trial: error 422, OIDC trust missing"
+title: "How to subscribe to SAP Document AI on a BTP trial"
 date: 2026-08-06
 image: /assets/og/sap-document-ai-btp-trial-oidc-trust.png
 ---
