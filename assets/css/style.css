@@ -428,6 +428,17 @@ body {
   color: var(--muted);
 }
 
+/* Screenshots come out of the tool wider than the column, so they scale down
+   to the measure rather than setting their own width. The hairline keeps a
+   pale UI capture from bleeding into the paper at its edges. */
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+
 .prose table {
   width: 100%;
   border-collapse: collapse;
