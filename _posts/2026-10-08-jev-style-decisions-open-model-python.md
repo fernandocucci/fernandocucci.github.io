@@ -73,10 +73,52 @@ I ran it on the 140 synthetic supplier emails of an SAP Accounts Payable inbox t
 
 The model was 100.0% sure on the email above, and across the 140 emails its mean confidence was 98.5% while it was right 82% of the time.
 
+## The same trick with a vision model, playing Mario
+
+After the emails I wanted to see the same thing with images, so I swapped the model for Qwen3-VL 4B (with mlx-vlm) and put it to play Super Mario Bros. For every decision the model gets the current frame and three yes/no questions: is there an enemy, a green pipe or a hole close to Mario, on his right side? If any "yes" goes above 30% Mario jumps, otherwise he walks.
+
+<video controls muted playsinline preload="metadata" style="width:100%;max-width:540px" src="/assets/img/jev-style-decisions-open-model-python/mario.mp4"></video>
+
+It jumps over the first Goomba, gets over the four pipes and then falls in the first hole, with the "hole" question at 2%.
+
+Two things that I had to change on the way:
+
+- My first version asked "right, jump or left?" and the model answered "right" with 96%, even with the Goomba right in front of Mario.
+- A single question for the three dangers gave 1% with Mario standing against a pipe, while asking only for the pipe gave 100%. That is why there is one question per danger.
+
+Each question takes 0.34 s, so a decision is about one second and the emulator waits while the model answers (the video is not real time). The 30% I picked by eye after looking at a few frames.
+
+This is one question on one frame. You need `pip install mlx-vlm` and the download is around 3 GB:
+
+```python
+import mlx.core as mx
+from mlx_vlm import load
+from mlx_vlm.prompt_utils import apply_chat_template
+from mlx_vlm.utils import prepare_inputs
+from PIL import Image
+
+model, processor = load("mlx-community/Qwen3-VL-4B-Instruct-4bit")
+
+image = Image.open("frame.png")
+question = ("This is a frame of Super Mario Bros. Is there an enemy on the ground "
+            "close to Mario, on his right side? Answer yes or no.")
+
+prompt = apply_chat_template(processor, model.config, question, num_images=1)
+inputs = prepare_inputs(processor, images=[image], prompts=prompt)
+extra = {k: v for k, v in inputs.items() if k not in ("input_ids", "pixel_values", "attention_mask")}
+scores = model(inputs["input_ids"], inputs["pixel_values"], inputs["attention_mask"], **extra).logits[0, -1]
+ids = [processor.tokenizer.encode(o, add_special_tokens=False)[0] for o in ("yes", "no")]
+p_yes = mx.softmax(scores[mx.array(ids)])[0].item()
+
+print(f"enemy: {p_yes:.0%}")
+```
+
+On a frame with the first Goomba in front of Mario it prints `enemy: 50%`. The game itself runs on `gym-super-mario-bros`, and the loop around this is: ask the three questions, hold the jump button for 20 frames or walk for 8, repeat.
+
 ## Some ideas that I had while doing this
 
 - LoRA fine-tuning on a mix of public classification tasks, this should improve the numbers.
-- Test with a vision model: a photo of a pallet at goods receipt, with the options "ok" and "damaged".
+- The vision version on something from SAP: a photo of a pallet at goods receipt, with the options "ok" and "damaged".
 - Add a "calibration" value. If we divide the scores by a single number before the softmax, the percentages get less extreme and the winner stays the same. You tune that number on a separate set of emails until an 85% really means the model is right 85% of the time.
 - Yes/no questions and scores: at the end, yes/no is the same thing with two options. For a score from 1 to 5 you read the five number tokens and take the weighted average.
 - Many questions on one email. The email is computed once and each question adds a small cost.
