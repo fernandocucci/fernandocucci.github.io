@@ -63,8 +63,8 @@
   </header>
 
   <nav class="toolbar" aria-label="Main">
-    <a class="btn" href="{{ '/articles/' | relative_url }}">All articles</a>
     <a class="btn" href="{{ '/' | relative_url }}">User menu</a>
+    <a class="btn" href="{{ '/articles/' | relative_url }}">All articles</a>
     <a class="btn" href="{{ '/cv/' | relative_url }}">Profile</a>
     <a class="btn" href="{{ '/cv/#certifications' | relative_url }}">Certifications</a>
     {%- if site.linkedin_url -%}<a class="btn" href="{{ site.linkedin_url }}" rel="me">LinkedIn</a>{%- endif -%}

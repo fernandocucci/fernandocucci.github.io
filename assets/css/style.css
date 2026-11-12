@@ -270,10 +270,10 @@ body {
 }
 
 .gears { width: 100%; height: auto; overflow: visible; }
-.gear { transform-box: fill-box; transform-origin: center; animation: spin 24s linear infinite; }
-/* Period scales with tooth count (16, 12, 10), so the pitch speeds match. */
-.gear--a { animation-duration: 18s; animation-direction: reverse; }
-.gear--c { animation-duration: 15s; animation-direction: reverse; }
+.gear { transform-box: fill-box; transform-origin: center; animation: spin 40s linear infinite; }
+/* Period scales with tooth count (10, 8, 7), so the pitch speeds match. */
+.gear--a { animation-duration: 32s; animation-direction: reverse; }
+.gear--c { animation-duration: 28s; animation-direction: reverse; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
