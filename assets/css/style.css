@@ -404,6 +404,152 @@ body {
 .job__meta { margin: 2px 0 6px; color: var(--label); }
 .job__points { margin: 0; padding-left: 1.25rem; }
 
+/* ----------------------------------------------------------------- SE38 */
+
+.status__icon--ok { background: #2B7D2B; }
+
+.se38[hidden] { display: none; }
+
+.se38__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.se38__bar button { cursor: pointer; }
+.se38__hint { color: var(--label); font-size: 12px; }
+
+.se38__editor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  height: 62vh;
+  background: var(--bg);
+  border: 1px solid #BFC7CC;
+  font: 13px/1.5 var(--mono);
+}
+
+.se38__gutter {
+  margin: 0;
+  padding: 8px 8px 8px 12px;
+  overflow: hidden;
+  text-align: right;
+  color: #8A9399;
+  background: #F2F4F5;
+  border-right: 1px solid #DDE2E4;
+  user-select: none;
+  font: inherit;
+}
+
+.se38__src {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 8px 12px;
+  border: 0;
+  resize: none;
+  outline: none;
+  white-space: pre;
+  overflow: auto;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  tab-size: 2;
+}
+
+/* ---- initial screen ---- */
+
+.se38__start { max-width: 48rem; padding: 2.5rem 0 0 2rem; }
+
+.se38__prog {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.se38__prog label { color: var(--label); margin-right: 4px; }
+
+.se38__field {
+  display: inline-flex;
+  width: 20rem;
+  max-width: 100%;
+  background: var(--bg);
+  border: 1px solid #89919A;
+  border-radius: 2px;
+}
+.se38__field:focus-within { outline: 1px dotted var(--text); outline-offset: 1px; border-color: var(--brand); }
+.se38__field input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 0;
+  outline: none;
+  font: 14px var(--ui-font);
+  text-transform: uppercase;
+  background: transparent;
+  appearance: none;
+}
+.se38__field input::-webkit-search-cancel-button { display: none; }
+.se38__f4 {
+  padding: 0 9px;
+  border: 0;
+  border-left: 1px solid #D9D9D9;
+  background: transparent;
+  color: var(--brand);
+  font-size: 16px;
+  cursor: pointer;
+}
+.se38__f4:hover { background: var(--hover); }
+
+.btn.se38__wide { min-width: 10rem; text-align: center; cursor: pointer; }
+
+/* Search results drop down from the field, as in SAP GUI for HTML. */
+.se38__f4list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 4.6rem;
+  z-index: 4;
+  width: min(36rem, 90vw);
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.se38__f4list[hidden] { display: none; }
+.se38__f4head { margin: 0; padding: 10px 14px; font-size: 16px; }
+.se38__f4list .alv { border: 0; }
+.se38__f4list tbody tr { cursor: pointer; }
+.se38__f4list tbody tr:focus { outline: none; background: var(--hover); }
+
+.se38__start > .se38__hint { margin: 10px 0 2.5rem; max-width: 36rem; }
+.se38__actions { display: flex; gap: 12px; }
+
+/* Display mode: read-only, greyed like the real one. */
+.se38--display .se38__src { background: #F5F6F7; color: #4A4F54; }
+
+.se38__list { background: var(--bg); border: 1px solid #BFC7CC; }
+
+.se38__listhead {
+  margin: 0;
+  padding: 6px 12px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--line);
+}
+
+.se38__out {
+  margin: 0;
+  min-height: 50vh;
+  padding: 10px 12px;
+  overflow: auto;
+  font: 13px/1.5 var(--mono);
+  white-space: pre;
+}
+
+.se38__out--dump { color: var(--error); background: #FFF5F5; }
+
 /* ------------------------------------------------------------------ post */
 
 .post {
@@ -470,6 +616,152 @@ body {
   margin-inline: 0.4em;
   color: color-mix(in srgb, var(--muted) 55%, transparent);
 }
+
+/* ----------------------------------------------------------------- SE38 */
+
+.status__icon--ok { background: #2B7D2B; }
+
+.se38[hidden] { display: none; }
+
+.se38__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.se38__bar button { cursor: pointer; }
+.se38__hint { color: var(--label); font-size: 12px; }
+
+.se38__editor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  height: 62vh;
+  background: var(--bg);
+  border: 1px solid #BFC7CC;
+  font: 13px/1.5 var(--mono);
+}
+
+.se38__gutter {
+  margin: 0;
+  padding: 8px 8px 8px 12px;
+  overflow: hidden;
+  text-align: right;
+  color: #8A9399;
+  background: #F2F4F5;
+  border-right: 1px solid #DDE2E4;
+  user-select: none;
+  font: inherit;
+}
+
+.se38__src {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 8px 12px;
+  border: 0;
+  resize: none;
+  outline: none;
+  white-space: pre;
+  overflow: auto;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  tab-size: 2;
+}
+
+/* ---- initial screen ---- */
+
+.se38__start { max-width: 48rem; padding: 2.5rem 0 0 2rem; }
+
+.se38__prog {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.se38__prog label { color: var(--label); margin-right: 4px; }
+
+.se38__field {
+  display: inline-flex;
+  width: 20rem;
+  max-width: 100%;
+  background: var(--bg);
+  border: 1px solid #89919A;
+  border-radius: 2px;
+}
+.se38__field:focus-within { outline: 1px dotted var(--text); outline-offset: 1px; border-color: var(--brand); }
+.se38__field input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 0;
+  outline: none;
+  font: 14px var(--ui-font);
+  text-transform: uppercase;
+  background: transparent;
+  appearance: none;
+}
+.se38__field input::-webkit-search-cancel-button { display: none; }
+.se38__f4 {
+  padding: 0 9px;
+  border: 0;
+  border-left: 1px solid #D9D9D9;
+  background: transparent;
+  color: var(--brand);
+  font-size: 16px;
+  cursor: pointer;
+}
+.se38__f4:hover { background: var(--hover); }
+
+.btn.se38__wide { min-width: 10rem; text-align: center; cursor: pointer; }
+
+/* Search results drop down from the field, as in SAP GUI for HTML. */
+.se38__f4list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 4.6rem;
+  z-index: 4;
+  width: min(36rem, 90vw);
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.se38__f4list[hidden] { display: none; }
+.se38__f4head { margin: 0; padding: 10px 14px; font-size: 16px; }
+.se38__f4list .alv { border: 0; }
+.se38__f4list tbody tr { cursor: pointer; }
+.se38__f4list tbody tr:focus { outline: none; background: var(--hover); }
+
+.se38__start > .se38__hint { margin: 10px 0 2.5rem; max-width: 36rem; }
+.se38__actions { display: flex; gap: 12px; }
+
+/* Display mode: read-only, greyed like the real one. */
+.se38--display .se38__src { background: #F5F6F7; color: #4A4F54; }
+
+.se38__list { background: var(--bg); border: 1px solid #BFC7CC; }
+
+.se38__listhead {
+  margin: 0;
+  padding: 6px 12px;
+  font-weight: bold;
+  border-bottom: 1px solid var(--line);
+}
+
+.se38__out {
+  margin: 0;
+  min-height: 50vh;
+  padding: 10px 12px;
+  overflow: auto;
+  font: 13px/1.5 var(--mono);
+  white-space: pre;
+}
+
+.se38__out--dump { color: var(--error); background: #FFF5F5; }
 
 /* ------------------------------------------------------------------ post */
 

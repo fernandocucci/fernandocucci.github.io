@@ -1,0 +1,75 @@
+---
+layout: default
+title: ABAP Editor
+permalink: /se38/
+tcode: SE38
+screen_title: "ABAP Editor: Initial Screen"
+status: "Enter a program name. F4 lists the sample programs."
+---
+
+{%- comment -%}
+  Three screens in one page, like SE38: initial screen, editor and list
+  output. se38.js switches between them; abap.js is the interpreter and
+  abap-samples.js holds the sample Z programs. Programs a visitor creates
+  live only in their own browser (localStorage).
+{%- endcomment -%}
+
+<section class="se38" id="se38-initial" aria-label="ABAP Editor initial screen">
+  <div class="se38__bar">
+    <button class="btn" type="button" id="se38-exec0" title="Execute (F8)">Execute</button>
+  </div>
+
+  <div class="se38__start">
+    <div class="se38__prog">
+      <label for="se38-name">Program:</label>
+      <span class="se38__field">
+        <input id="se38-name" type="search" autocomplete="off" spellcheck="false"
+               aria-describedby="se38-f4hint" aria-controls="se38-f4">
+        <button class="se38__f4" type="button" id="se38-f4btn" title="Possible entries (F4)" aria-label="List programs">⧉</button>
+      </span>
+      <button class="btn se38__wide" type="button" id="se38-create">Create</button>
+      <div class="se38__f4list" id="se38-f4" hidden>
+        <p class="se38__f4head">Search results</p>
+        <table class="alv">
+          <thead><tr><th scope="col">Program</th><th scope="col">Report title</th></tr></thead>
+          <tbody id="se38-f4rows"></tbody>
+        </table>
+      </div>
+    </div>
+    <p class="se38__hint" id="se38-f4hint">Press F4 (or the button next to the field) to search programs, for example z*. New programs must start with Z or Y and are saved in this browser only.</p>
+
+    <div class="se38__actions">
+      <button class="btn se38__wide" type="button" id="se38-display">Display</button>
+      <button class="btn se38__wide" type="button" id="se38-change">Change</button>
+    </div>
+  </div>
+</section>
+
+<section class="se38" id="se38-editor" aria-label="ABAP editor" hidden>
+  <div class="se38__bar">
+    <button class="btn" type="button" id="se38-toggle" title="Display &lt;-&gt; Change (Ctrl+F1)">Display &lt;-&gt; Change</button>
+    <button class="btn" type="button" id="se38-check" title="Check (Ctrl+F2)">Check</button>
+    <button class="btn btn--emph" type="button" id="se38-run" title="Execute (F8 or Ctrl+Enter)">Execute</button>
+    <button class="btn" type="button" id="se38-reset" title="Load the original sample again">Restore sample</button>
+    <span class="se38__hint">Subset of ABAP: DATA, WRITE, IF, DO, WHILE, CASE, CONCATENATE, string templates. No tables or SELECT.</span>
+  </div>
+  <div class="se38__editor">
+    <pre class="se38__gutter" id="se38-gutter" aria-hidden="true">1</pre>
+    <textarea class="se38__src" id="se38-src" spellcheck="false" autocomplete="off" autocapitalize="off" wrap="off"
+              aria-label="ABAP source code"></textarea>
+  </div>
+</section>
+
+<section class="se38" id="se38-list" aria-label="Program output" hidden>
+  <div class="se38__bar">
+    <button class="btn" type="button" id="se38-back" title="Back (F3)">Back</button>
+  </div>
+  <div class="se38__list">
+    <p class="se38__listhead" id="se38-listhead">Program</p>
+    <pre class="se38__out" id="se38-out"></pre>
+  </div>
+</section>
+
+<script src="{{ '/assets/js/abap.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/abap-samples.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/se38.js' | relative_url }}" defer></script>
