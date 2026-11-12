@@ -36,14 +36,29 @@
   <header class="shell">
     <a class="shell__logo" href="{{ '/' | relative_url }}" aria-label="Home">FC</a>
     <p class="shell__title">
-      {%- if page.layout == "home" -%}{{ site.title }} Easy Access<span class="shell__dash"> - </span><span class="shell__sub">User menu for {{ site.author }}</span>
+      {%- if page.layout == "home" -%}Easy Access<span class="shell__dash"> - </span><span class="shell__sub">User menu for {{ site.author }}</span>
       {%- else -%}{{ screen_title | escape }}{%- endif -%}
     </p>
-    <form class="okcode" action="{{ '/' | relative_url }}" role="search" aria-label="Command field">
-      <label class="okcode__toggle" for="okcode" title="Command field">›</label>
-      <input class="okcode__field" id="okcode" name="t" type="text" autocomplete="off" spellcheck="false"
-             placeholder="/n{{ tcode }}" aria-label="Transaction code, for example ZBLOG or ZCV">
-    </form>
+    <div class="okcode" role="search" aria-label="Command field">
+      <label class="okcode__toggle" for="okcode-search" title="Command field">›</label>
+      {%- comment -%}
+        No <form> and no name: password managers (iCloud Passwords) treat a
+        one-field form as a login and pop up over it. The menu below is the single list of transactions: it is the
+        dropdown, and okcode.js reads the codes and URLs from it.
+      {%- endcomment -%}
+      <input class="okcode__field" id="okcode-search" name="search" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" autocomplete="off" spellcheck="false"
+             placeholder="/n{{ tcode }}" aria-label="Transaction code, for example ZBLOG or ZCV" aria-controls="tcodes">
+      <div class="okcode__menu">
+        <p class="okcode__head okcode__head--recent" hidden>Recent</p>
+        <ul class="okcode__list okcode__list--recent"></ul>
+        <p class="okcode__head">All transactions</p>
+        <ul class="okcode__list" id="tcodes">
+          {%- for t in site.data.tcodes -%}
+          <li><a href="{{ t.url | prepend: '/' | relative_url }}" data-code="{{ t.code }}"><code>{{ t.code }}</code><span>{{ t.text }}</span></a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
     <span class="shell__sys">BLG (100)</span>
   </header>
 
