@@ -1,64 +1,44 @@
 /* ---------------------------------------------------------------- tokens */
+/* SAP GUI for HTML, Belize-style: dark shell bar, outlined blue buttons,
+   flat white screens. Articles keep the reading typography inside a white
+   document pane. Light only, like the original.                           */
 
 :root {
-  --paper:   #FCFCFD;
+  --shell:    #354A5F;
+  --shell-hi: #4A6178;
+  --brand:    #0A6ED1;
+  --brand-dk: #085CAF;
+  --text:     #32363A;
+  --label:    #6A6D70;
+  --line:     #E5E5E5;
+  --bg:       #FFFFFF;
+  --bg-soft:  #F7F7F7;
+  --hover:    #E5F0FA;
+  --error:    #BB0000;
+  --ui-font: "72", "72full", "Segoe UI", Arial, Helvetica, sans-serif;
+
+  --paper:   #FFFFFF;
   --ink:     #14161A;
-  --muted:   #626C7C;
-  --rule:    #E2E5EA;
-  --accent:  #5B46B3;
+  --muted:   #5A6474;
+  --rule:    #E1E4E8;
+  --accent:  #0A6ED1;
 
   --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
   --sans:  "IBM Plex Sans", system-ui, -apple-system, sans-serif;
   --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  /* One column for everything: prose, code panels, rules. Wide enough that
-     96-column code fits inside the panel's padding without wrapping, which
-     is what sets the number. Longer lines than the typographic ideal, so
-     the body leading below is opened up to compensate. */
+  /* Sized so 96-column code fits the panel without wrapping. */
   --measure: 50rem;
-  /* Small type needs a shorter line than the column it sits in: the measure
-     above is set by the code panel, and at 15px it would run past 100
-     characters. Ledes, excerpts and footnotes stop here instead, and the
-     rules keep spanning the full column so the grid still reads. */
   --measure-aside: 36rem;
-  --gutter: clamp(1.25rem, 5vw, 2.5rem);
 
-  /* The identity rail. Narrow on purpose: at 11rem the bio runs about 28
-     characters to the line, which is a margin note's measure, not a
-     paragraph's. That alone stops it being read as feed content. The gap is
-     wide enough that the two columns never look like one table. */
-  --rail: 11rem;
-  --rail-gap: 4rem;
-
-  /* Syntax. Hues are pulled toward the accent so the code panel reads as
-     part of the page rather than a pasted-in editor theme. */
-  --code-bg:   #F4F5F9;
-  --code-rule: #E2E5EA;
-  --syn-key:   #6B3FBF;
+  --code-bg:   #F5F7FA;
+  --code-rule: #DDE2E8;
+  --syn-key:   #0B4FA8;
   --syn-str:   #0F7458;
   --syn-num:   #9C560A;
-  --syn-fn:    #1F55BE;
+  --syn-fn:    #6B3FBF;
   --syn-type:  #0B6E75;
   --syn-punct: #5A6273;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper:   #0F1115;
-    --ink:     #E7E9ED;
-    --muted:   #949DAC;
-    --rule:    #272B34;
-    --accent:  #B3A0F0;
-
-    --code-bg:   #171A21;
-    --code-rule: #262A33;
-    --syn-key:   #B9A5F5;
-    --syn-str:   #7FD3A8;
-    --syn-num:   #E3AC77;
-    --syn-fn:    #82B1F0;
-    --syn-type:  #6FCFCB;
-    --syn-punct: #9AA3B2;
-  }
 }
 
 /* ----------------------------------------------------------------- base */
@@ -69,163 +49,329 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ui-font);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+:focus-visible { outline: 1px dotted var(--text); outline-offset: 2px; }
+
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { left: 1rem; top: 0.5rem; z-index: 10; background: var(--bg); padding: 0.4rem 0.6rem; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ shell bar */
+
+.shell {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 3rem;
+  padding: 0 1rem 0 1.5rem;
+  background: var(--shell);
+  color: #FFF;
+}
+
+/* Own monogram on the brand gradient, not the SAP logo. */
+.shell__logo {
+  flex: none;
+  padding: 2px 14px 2px 8px;
+  font: bold 18px/1.3 var(--ui-font);
+  letter-spacing: -0.5px;
+  color: #FFF;
+  text-decoration: none;
+  background: linear-gradient(#00B8F1, #1E5FBB);
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+}
+
+.shell__title {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.okcode { display: flex; align-items: center; gap: 4px; }
+.okcode__toggle { font-size: 20px; line-height: 1; padding: 0 6px; cursor: pointer; color: #D1E8FF; }
+.okcode__field {
+  width: 9rem;
+  padding: 4px 8px;
+  font: 13px var(--mono);
+  text-transform: uppercase;
+  color: #FFF;
+  background: var(--shell-hi);
+  border: 1px solid #6A7F95;
+  border-radius: 4px;
+}
+.okcode__field::placeholder { color: #A9B4BE; text-transform: none; }
+.okcode__field:focus { background: #FFF; color: var(--text); outline: none; }
+
+.shell__sys { flex: none; font-size: 14px; white-space: nowrap; }
+.shell__sys::after { content: " \2335"; }
+
+/* -------------------------------------------------------------- toolbar */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 1.5rem;
+  background: var(--bg);
+}
+
+.btn {
+  display: inline-block;
+  padding: 2px 6px;
+  font: 14px/1.4 var(--ui-font);
+  color: var(--brand);
+  text-decoration: none;
+  background: var(--bg);
+  border: 1px solid var(--brand);
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.btn:hover { background: var(--hover); }
+.btn--emph { color: #FFF; background: var(--brand); border-color: var(--brand-dk); font-weight: bold; padding: 3px 8px; }
+.btn--emph:hover { background: var(--brand-dk); }
+
+.toolbar__end { margin-left: auto; color: var(--brand); text-decoration: none; }
+.toolbar__end:hover { text-decoration: underline; }
+
+/* --------------------------------------------------------------- screen */
+
+.screen {
+  flex: 1;
+  width: 100%;
+  padding: 1rem 1.5rem 2rem;
+}
+
+/* Easy Access: tree on the left, welcome image on the right. */
+.screen--home {
+  display: grid;
+  grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+/* ---- tree ---- */
+
+.tree {
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.tree ul { list-style: none; margin: 0; padding: 0; }
+.tree ul ul, .tree details details { padding-left: 16px; }
+
+.tree summary, .tree a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 25px;
+  padding: 2px 8px 2px 24px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tree summary { list-style: none; position: relative; }
+.tree summary::-webkit-details-marker { display: none; }
+.tree summary::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  width: 6px; height: 6px;
+  border: solid var(--text);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(-45deg);
+  transition: transform 120ms;
+}
+.tree details[open] > summary::before { transform: rotate(45deg); margin-top: -3px; }
+
+.tree summary:hover, .tree a:hover { background: var(--hover); }
+.tree > details:first-child > summary { color: var(--brand); }
+
+.ic { flex: none; width: 16px; height: 16px; color: var(--brand); }
+.tree__text { flex: 1; min-width: 0; }
+.tree__date { flex: none; color: var(--label); font-size: 12px; font-variant-numeric: tabular-nums; }
+
+/* ---- welcome ---- */
+
+.welcome {
+  position: sticky;
+  top: 4.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+  min-height: 28rem;
+  padding: 2rem;
+  background: var(--bg-soft);
+}
+
+.gears { position: relative; aspect-ratio: 1; }
+.gear { position: absolute; animation: spin 24s linear infinite; }
+.gear--a { width: 52%; height: 52%; left: 32%; top: 0; }
+.gear--b { width: 62%; height: 62%; left: 0; top: 34%; animation-direction: reverse; }
+.gear--c { width: 42%; height: 42%; left: 58%; top: 46%; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.welcome__text p { margin: 0; }
+.welcome__hello { font-size: clamp(1rem, 1.6vw, 1.5rem); font-weight: bold; color: #000; }
+.welcome__name {
+  margin-top: 0.75rem !important;
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.05;
+  color: var(--brand);
+  letter-spacing: -0.02em;
+}
+.welcome__tag {
+  margin-top: 0.5rem !important;
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #3A3A3A;
+}
+.welcome hr { margin: 1.25rem 0; border: 0; border-top: 2px solid #000; }
+.welcome__desc { color: var(--label); line-height: 1.55; }
+
+/* --------------------------------------------------------------- footer */
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 1.5rem;
+  background: var(--bg);
+  border-top: 1px solid #D9D9D9;
+}
+
+.status { flex: 1; margin: 0; min-width: 0; color: var(--label); font-size: 13px; }
+.status--error { color: var(--error); font-weight: bold; }
+.status__icon { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 50%; background: var(--error); }
+.footer__sys { margin: 0 8px 0 0; color: var(--label); font-size: 12px; }
+
+/* ---------------------------------------------------- groups and fields */
+
+.group { margin: 0 0 2rem; }
+
+.group__title {
+  margin: 0 0 0.75rem;
+  padding-bottom: 4px;
+  font: bold 16px var(--ui-font);
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 46rem);
+  gap: 8px 16px;
+  margin: 0;
+  align-items: baseline;
+}
+.fields dt { color: var(--label); text-align: right; }
+.fields dt::after { content: ":"; }
+.fields dd { margin: 0; }
+
+.field {
+  display: block;
+  padding: 3px 0;
+  border-bottom: 1px solid #BFBFBF;
+}
+.field--link { color: var(--brand); text-decoration: none; }
+.field--link:hover { text-decoration: underline; }
+
+/* -------------------------------------------------------------- ALV grid */
+
+.alv {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+
+.alv th, .alv td {
+  padding: 6px 10px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.alv th { font-weight: normal; color: var(--label); background: #F2F2F2; border-right: 1px solid var(--line); }
+.alv tbody tr:hover { background: var(--hover); }
+.alv__date { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 40rem) {
+  .alv thead { display: none; }
+  .alv, .alv tbody, .alv tr, .alv td { display: block; width: 100%; }
+  .alv tr { border-bottom: 1px solid var(--line); padding: 4px 0; }
+  .alv td { border: 0; padding: 2px 10px; }
+}
+
+/* ------------------------------------------------------------------- CV */
+
+.job { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.job:last-child { border-bottom: 0; }
+.job__role { margin: 0; font: bold 14px var(--ui-font); }
+.job__meta { margin: 2px 0 6px; color: var(--label); }
+.job__points { margin: 0; padding-left: 1.25rem; }
+
+/* ------------------------------------------------------------------ post */
+
+.post {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 2.5rem);
   background: var(--paper);
-  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   font-family: var(--serif);
   font-size: clamp(1.0625rem, 0.4vw + 1rem, 1.1875rem);
   line-height: 1.72;
-  font-feature-settings: "kern", "liga";
-  -webkit-font-smoothing: antialiased;
-}
-
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 1px;
-}
-
-.skip-link {
-  position: absolute;
-  left: -9999px;
-}
-.skip-link:focus {
-  left: var(--gutter);
-  top: 0.75rem;
-  z-index: 10;
-  background: var(--paper);
-  padding: 0.5rem 0.75rem;
-  font-family: var(--mono);
-  font-size: 0.75rem;
-}
-
-/* --------------------------------------------------------------- layout */
-
-/* Narrow first: one column, identity stacked above the body, which is what
-   the page was before the rail existed. */
-
-.page {
-  max-width: calc(var(--measure) + 2 * var(--gutter));
-  margin-inline: auto;
-  padding-inline: var(--gutter);
-}
-
-/* The body column owns the space above the first rule, so the archive on the
-   home page and the title on a post start at the same height as the name in
-   the rail. Sections below set only their own bottom spacing. */
-.page__body {
-  padding-top: 3rem;
-}
-
-/* Wide: rail and reading column side by side, centred as one assembly. The
-   reading column keeps --measure exactly, so the code panels still take the
-   96 columns they were sized for and every rule on the page still runs
-   between the same two vertical lines. 72rem is rail + gap + measure + both
-   gutters; below it the columns cannot both fit and the page stacks. */
-@media (min-width: 72rem) {
-  .page {
-    display: grid;
-    grid-template-columns: var(--rail) minmax(0, var(--measure));
-    column-gap: var(--rail-gap);
-    max-width: calc(
-      var(--rail) + var(--rail-gap) + var(--measure) + 2 * var(--gutter)
-    );
-  }
-}
-
-/* -------------------------------------------------------------- identity */
-
-/* Sans, not serif: the serif is for reading, so anything set in it reads as
-   an article. This is identity, so it gets a different voice. */
-
-.identity {
-  padding-top: 2.5rem;
-}
-
-.identity__inner {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 0.875rem 1.5rem;
-}
-
-/* Rows are explicit: the bio spans the full width, so auto-placement would
-   otherwise push the nav off the name's row and onto one of its own. */
-.identity__name {
-  grid-area: 1 / 1;
-  font-family: var(--sans);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: -0.005em;
   color: var(--ink);
-  text-decoration: none;
 }
 
-/* Full width on its own row when stacked, so it never shares a baseline with
-   the name and reads as a caption under it. */
-.identity__bio {
-  grid-area: 2 / 1 / 3 / -1;
-  margin: 0;
-  max-width: var(--measure-aside);
-  font-family: var(--sans);
-  font-size: 0.8125rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--muted);
-  text-wrap: pretty;
+.post > * { max-width: var(--measure); margin-inline: auto; }
+.post__nav { max-width: 60rem; margin-inline: auto; }
+
+/* ---------------------------------------------------------------- mobile */
+
+@media (max-width: 52rem) {
+  .screen--home { grid-template-columns: 1fr; }
+  .welcome { position: static; order: -1; min-height: 0; grid-template-columns: 6rem 1fr; padding: 1rem; }
+  .welcome__desc, .welcome hr { display: none; }
 }
 
-.identity__nav {
-  grid-area: 1 / 2;
-  justify-self: end;
-  display: flex;
-  gap: 1.25rem;
-}
-
-.identity__nav a {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--muted);
-  text-decoration: none;
-  padding-block: 0.25rem;
-  border-bottom: 1px solid transparent;
-}
-
-.identity__nav a:hover {
-  color: var(--ink);
-  border-bottom-color: var(--accent);
-}
-
-/* In the rail the three parts stack in one column and stay with the reader.
-   Sticky sits on the inner element: the grid stretches .identity to the full
-   height of the row, which is what gives the sticky element room to travel. */
-@media (min-width: 72rem) {
-  .identity {
-    padding-top: 3rem;
-  }
-
-  .identity__inner {
-    position: sticky;
-    top: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.125rem;
-  }
-
-  /* Stacked, the body's 1.72 leading would space these like paragraphs. Pull
-     it in so the two links read as one block under the bio. */
-  .identity__nav {
-    flex-direction: column;
-    gap: 0.375rem;
-    margin-top: 0.25rem;
-  }
-
-  .identity__nav a {
-    line-height: 1.2;
-  }
+@media (max-width: 40rem) {
+  .shell { gap: 0.5rem; padding: 0 0.75rem; }
+  .shell__sys, .shell__dash, .shell__sub, .footer__sys { display: none; }
+  .okcode__field { width: 6.5rem; }
+  .toolbar, .screen, .footer { padding-inline: 0.75rem; }
+  .fields { grid-template-columns: 1fr; gap: 2px; }
+  .fields dt { text-align: left; }
+  .fields dd { margin-bottom: 8px; }
 }
 
 /* ------------------------------------------------------------ provenance */
@@ -254,55 +400,6 @@ body {
 .provenance__sep {
   margin-inline: 0.4em;
   color: color-mix(in srgb, var(--muted) 55%, transparent);
-}
-
-/* --------------------------------------------------------------- archive */
-
-.archive {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--rule);
-}
-
-.entry {
-  padding-block: 2.25rem;
-  border-bottom: 1px solid var(--rule);
-}
-
-/* The colophon's rule closes the list; a second one here would be redundant. */
-.entry:last-child {
-  border-bottom: 0;
-}
-
-.entry__title {
-  margin: 0 0 0.5rem;
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.014em;
-  text-wrap: balance;
-}
-
-.entry__title a {
-  color: var(--ink);
-  text-decoration: none;
-}
-
-.entry__title a:hover {
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-underline-offset: 0.18em;
-  text-decoration-thickness: 1px;
-}
-
-.entry__excerpt {
-  margin: 0;
-  max-width: var(--measure-aside);
-  color: var(--muted);
-  font-size: 0.9375rem;
-  line-height: 1.6;
 }
 
 /* ------------------------------------------------------------------ post */
@@ -774,39 +871,6 @@ html.has-lightbox-open { overflow: hidden; }
 .prose .highlight .gd { color: #B3261E; }
 .prose .highlight .gi { color: var(--syn-str); }
 .prose .highlight .err { color: inherit; }
-
-@media (prefers-color-scheme: dark) {
-  .prose .highlight .gd { color: #F2857C; }
-}
-
-/* -------------------------------------------------------------- colophon */
-
-/* The rule lives on the inner element so it lines up with the archive's
-   rules, which sit inside main's gutter. On .colophon itself it would run
-   the full width including the padding, and read as a measuring error. */
-
-.colophon {
-  margin-top: 3rem;
-  padding-block: 0 3.5rem;
-}
-
-.colophon__inner {
-  padding-top: 2rem;
-  border-top: 1px solid var(--rule);
-}
-
-.colophon p {
-  margin: 0;
-  max-width: var(--measure-aside);
-  font-size: 0.8125rem;
-  color: var(--muted);
-}
-
-.colophon__meta {
-  font-family: var(--mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
-}
 
 /* ---------------------------------------------------------------- motion */
 

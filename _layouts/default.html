@@ -18,42 +18,64 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="page">
+  {%- comment -%}
+    One SAP GUI for HTML session: shell bar, toolbar, screen, footer.
+    The home page is the Easy Access menu; every other page is a
+    "transaction" screen. Only the chrome is SAP; articles keep the
+    reading typography.
+  {%- endcomment -%}
+  {%- assign tcode = page.tcode | default: "ZBLOG" -%}
+  {%- assign screen_title = page.screen_title | default: page.title | default: site.title -%}
 
-    {%- comment -%}
-      Identity lives here rather than in home.html so the rail carries name,
-      bio and links on every page, including posts: a reader arriving from a
-      link always sees whose work this is.
-    {%- endcomment -%}
-    <header class="identity">
-      <div class="identity__inner">
-        <a class="identity__name" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-        <p class="identity__bio">{{ site.description }}</p>
-        <nav class="identity__nav" aria-label="Elsewhere">
-          {%- if site.linkedin_url -%}
-          <a href="{{ site.linkedin_url }}" rel="me">LinkedIn</a>
-          {%- endif -%}
-          {%- if site.github_url -%}
-          <a href="{{ site.github_url }}" rel="me">GitHub</a>
-          {%- endif -%}
-        </nav>
-      </div>
-    </header>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-folder" viewBox="0 0 16 16"><path d="M1.5 3.5h4l1.5 1.5h7.5v8h-13z" fill="none" stroke="currentColor"/></symbol>
+    <symbol id="i-tx" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2.2 1.73"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor"/></symbol>
+    <symbol id="i-link" viewBox="0 0 16 16"><path d="M9 2.5h4.5V7M13.5 2.5 7 9M11.5 9.5v4h-9v-9h4" fill="none" stroke="currentColor"/></symbol>
+  </svg>
 
-    <div class="page__body">
-      <main id="main">
-        {{ content }}
-      </main>
+  <header class="shell">
+    <a class="shell__logo" href="{{ '/' | relative_url }}" aria-label="Home">FC</a>
+    <p class="shell__title">
+      {%- if page.layout == "home" -%}{{ site.title }} Easy Access<span class="shell__dash"> - </span><span class="shell__sub">User menu for {{ site.author }}</span>
+      {%- else -%}{{ screen_title | escape }}{%- endif -%}
+    </p>
+    <form class="okcode" action="{{ '/' | relative_url }}" role="search" aria-label="Command field">
+      <label class="okcode__toggle" for="okcode" title="Command field">›</label>
+      <input class="okcode__field" id="okcode" name="t" type="text" autocomplete="off" spellcheck="false"
+             placeholder="/n{{ tcode }}" aria-label="Transaction code, for example ZBLOG or ZCV">
+    </form>
+    <span class="shell__sys">BLG (100)</span>
+  </header>
 
-      <footer class="colophon">
-        <div class="colophon__inner">
-          <p class="colophon__meta">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>
-        </div>
-      </footer>
-    </div>
+  <nav class="toolbar" aria-label="Main">
+    <a class="btn" href="{{ '/' | relative_url }}">User menu</a>
+    <a class="btn" href="{{ '/cv/' | relative_url }}">Profile</a>
+    <a class="btn" href="{{ '/cv/#certifications' | relative_url }}">Certifications</a>
+    {%- if site.linkedin_url -%}<a class="btn" href="{{ site.linkedin_url }}" rel="me">LinkedIn</a>{%- endif -%}
+    {%- if site.github_url -%}<a class="btn" href="{{ site.github_url }}" rel="me">GitHub</a>{%- endif -%}
+    <a class="toolbar__end" href="{{ '/feed.xml' | relative_url }}">RSS</a>
+  </nav>
 
-  </div>
+  <main id="main" class="screen{% if page.layout == 'home' %} screen--home{% endif %}">
+    {{ content }}
+  </main>
 
+  <footer class="footer">
+    <p class="status" id="status" role="status" aria-live="polite">
+      {%- if page.layout == "home" -%}{{ site.posts.size }} articles in user menu
+      {%- else -%}{{ page.status | default: "Document displayed" }}{%- endif -%}
+    </p>
+    <p class="footer__sys">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>
+    {%- if page.layout == "home" -%}
+      {%- assign latest = site.posts.first -%}
+      <a class="btn btn--emph" href="{{ latest.url | relative_url }}" title="Open the latest article">Execute</a>
+    {%- else -%}
+      <a class="btn" href="javascript:history.back()">Back</a>
+      <a class="btn btn--emph" href="{{ '/' | relative_url }}">Exit</a>
+    {%- endif -%}
+  </footer>
+
+  <script src="{{ '/assets/js/okcode.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/copy-code.js' | relative_url }}" defer></script>
   <script src="{{ '/assets/js/image-zoom.js' | relative_url }}" defer></script>
 

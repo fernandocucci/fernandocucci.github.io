@@ -22,6 +22,12 @@ defaults:
       path: ""
     values:
       image: /assets/og/site.png
+  - scope:
+      path: ""
+      type: posts
+    values:
+      tcode: ZBLOG
+      screen_title: Display Article
 
 plugins:
   - jekyll-feed
