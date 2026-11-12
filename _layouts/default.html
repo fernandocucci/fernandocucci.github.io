@@ -63,6 +63,7 @@
   </header>
 
   <nav class="toolbar" aria-label="Main">
+    <a class="btn" href="{{ '/articles/' | relative_url }}">All articles</a>
     <a class="btn" href="{{ '/' | relative_url }}">User menu</a>
     <a class="btn" href="{{ '/cv/' | relative_url }}">Profile</a>
     <a class="btn" href="{{ '/cv/#certifications' | relative_url }}">Certifications</a>
@@ -78,6 +79,7 @@
   <footer class="footer">
     <p class="status" id="status" role="status" aria-live="polite">
       {%- if page.layout == "home" -%}{{ site.posts.size }} articles in user menu
+      {%- elsif page.tcode == "ZPOSTS" -%}{{ site.posts.size }} articles displayed
       {%- else -%}{{ page.status | default: "Document displayed" }}{%- endif -%}
     </p>
     <p class="footer__sys">© {{ 'now' | date: "%Y" }} {{ site.author }}</p>

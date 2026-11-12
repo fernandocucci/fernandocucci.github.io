@@ -1,5 +1,6 @@
 # Transactions for the command field. url is relative to the site root.
 - { code: ZBLOG, text: "User menu: all articles", url: "" }
+- { code: ZPOSTS, text: "All articles (list)", url: "articles/" }
 - { code: ZCV,   text: "Display employee profile", url: "cv/" }
 - { code: ZCERT, text: "Certifications", url: "cv/#certifications" }
 - { code: PA20,  text: "Employment history", url: "cv/#experience" }

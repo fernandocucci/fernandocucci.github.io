@@ -269,11 +269,11 @@ body {
   background: var(--bg-soft);
 }
 
-.gears { position: relative; aspect-ratio: 1; }
-.gear { position: absolute; animation: spin 24s linear infinite; }
-.gear--a { width: 52%; height: 52%; left: 32%; top: 0; }
-.gear--b { width: 62%; height: 62%; left: 0; top: 34%; animation-direction: reverse; }
-.gear--c { width: 42%; height: 42%; left: 58%; top: 46%; }
+.gears { width: 100%; height: auto; overflow: visible; }
+.gear { transform-box: fill-box; transform-origin: center; animation: spin 24s linear infinite; }
+/* Period scales with tooth count (16, 12, 10), so the pitch speeds match. */
+.gear--a { animation-duration: 18s; animation-direction: reverse; }
+.gear--c { animation-duration: 15s; animation-direction: reverse; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -365,6 +365,11 @@ body {
 .alv th { font-weight: normal; color: var(--label); background: #F2F2F2; border-right: 1px solid var(--line); }
 .alv tbody tr:hover { background: var(--hover); }
 .alv__date { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.alv__src { white-space: nowrap; }
+.alv a { color: var(--brand); }
+.alv__title { font-weight: bold; text-decoration: none; }
+.alv__title:hover { text-decoration: underline; }
+.alv__excerpt { display: block; margin-top: 2px; color: var(--label); }
 
 @media (max-width: 40rem) {
   .alv thead { display: none; }

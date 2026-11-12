@@ -63,18 +63,31 @@ layout: default
 </div>
 
 <aside class="welcome" aria-label="About this blog">
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="gear" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="40" fill="none" stroke="#2A6FE0" stroke-width="14" stroke-dasharray="13 18.4"/>
-      <circle cx="50" cy="50" r="34" fill="#8DB6F7" stroke="#2A6FE0" stroke-width="3"/>
-      <circle cx="50" cy="50" r="17" fill="#F7F9FB" stroke="#2A6FE0" stroke-width="6"/>
-    </symbol>
+  {%- comment -%}
+    Three gears with the same tooth pitch (module 4), so they really mesh:
+    radius is proportional to tooth count, spin period too, and neighbours
+    turn in opposite directions. The small gears touch only the big one;
+    three gears meshing in a triangle could not turn at all. The rotate()
+    phases put each tooth in the other gear's gap at the contact point.
+    Numbers come from a one-off script; change one gear and recompute.
+  {%- endcomment -%}
+  <svg class="gears" viewBox="0 0 120 120" aria-hidden="true">
+      <g transform="rotate(-78.75 40 80)"><g class="gear gear--b">
+        <circle cx="40" cy="80" r="32.0" fill="none" stroke="#2A6FE0" stroke-width="8" stroke-dasharray="5.655 6.912" stroke-dashoffset="2.827"/>
+        <circle cx="40" cy="80" r="28.0" fill="#8DB6F7" stroke="#2A6FE0" stroke-width="2"/>
+        <circle cx="40" cy="80" r="14.4" fill="#F7F9FB" stroke="#2A6FE0" stroke-width="4"/>
+      </g></g>
+      <g transform="rotate(112.5 61.43 28.26)"><g class="gear gear--a">
+        <circle cx="61.43" cy="28.26" r="24.0" fill="none" stroke="#2A6FE0" stroke-width="8" stroke-dasharray="5.655 6.912" stroke-dashoffset="2.827"/>
+        <circle cx="61.43" cy="28.26" r="20.0" fill="#8DB6F7" stroke="#2A6FE0" stroke-width="2"/>
+        <circle cx="61.43" cy="28.26" r="10.8" fill="#F7F9FB" stroke="#2A6FE0" stroke-width="4"/>
+      </g></g>
+      <g transform="rotate(180 92 80)"><g class="gear gear--c">
+        <circle cx="92" cy="80" r="20.0" fill="none" stroke="#2A6FE0" stroke-width="8" stroke-dasharray="5.655 6.912" stroke-dashoffset="2.827"/>
+        <circle cx="92" cy="80" r="16.0" fill="#8DB6F7" stroke="#2A6FE0" stroke-width="2"/>
+        <circle cx="92" cy="80" r="9.0" fill="#F7F9FB" stroke="#2A6FE0" stroke-width="4"/>
+      </g></g>
   </svg>
-  <div class="gears" aria-hidden="true">
-    <svg class="gear gear--a"><use href="#gear"/></svg>
-    <svg class="gear gear--b"><use href="#gear"/></svg>
-    <svg class="gear gear--c"><use href="#gear"/></svg>
-  </div>
   <div class="welcome__text">
     <p class="welcome__hello">Welcome · Bienvenido · Benvingut</p>
     <p class="welcome__name">{{ site.title }}</p>
