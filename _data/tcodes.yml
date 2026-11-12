@@ -6,4 +6,3 @@
 - { code: PA20,  text: "Employment history", url: "cv/#experience" }
 - { code: ZEDU,  text: "Education", url: "cv/#education" }
 - { code: SU01,  text: "Display user", url: "cv/" }
-- { code: RSS,   text: "RSS feed", url: "feed.xml" }
