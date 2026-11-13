@@ -573,9 +573,10 @@ body {
 @media (max-width: 52rem) {
   .screen--home { grid-template-columns: 1fr; }
   /* Image on top, text below it, so the skyline never sits under the text. */
-  .welcome { position: relative; order: -1; display: block; aspect-ratio: auto; padding: 0; }
-  .welcome::before { inset: 0 0 auto; aspect-ratio: 1024 / 637; background-size: 100% auto; }
-  .welcome__text { width: auto; margin-top: 62%; padding: 1rem; }
+  .welcome { position: static; order: -1; display: block; aspect-ratio: auto; padding: 0; }
+  /* Static block, not absolute: the text flows below it and the box grows. */
+  .welcome::before { position: static; display: block; aspect-ratio: 1024 / 637; background-size: 100% auto; }
+  .welcome__text { width: auto; padding: 1rem; }
   .welcome__desc, .welcome hr { display: none; }
 }
 
